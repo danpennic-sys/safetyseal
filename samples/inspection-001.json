@@ -1,0 +1,14 @@
+{
+  "event_id": "SAFE-2026-001",
+  "event_type": "inspection",
+  "site": "123 Main St, Springfield MO",
+  "client": "Acme Construction",
+  "notes": "Daily site inspection. All PPE in use. Scaffolding secure. No hazards noted.",
+  "hazards_noted": [],
+  "corrective_actions": [],
+  "attendees": ["tech-dan", "foreman-joe"],
+  "status": "completed",
+  "media_hashes": ["a1b2c3d4e5f6789012345678abcdef"],
+  "operator": "safety-dan",
+  "logged_at": "2026-10-30T14:00:00Z"
+}

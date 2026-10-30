@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SafetySeal Logger</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 1rem; }
+    label { display: block; margin-top: 1rem; font-weight: bold; }
+    input, textarea, select { width: 100%; padding: 0.5rem; margin-top: 0.25rem; }
+    button { margin-top: 1rem; padding: 0.75rem 1.5rem; background: #0066cc; color: white; border: none; cursor: pointer; }
+    pre { background: #f5f5f5; padding: 1rem; overflow: auto; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>SafetySeal — Local Logger</h1>
+  <p>Fill the form, generate a JSON event, then seal it offline with <code>safetyseal.py</code>.</p>
+  <form id="eventForm">
+    <label>Event ID <input name="event_id" value="SAFE-2026-001" required></label>
+    <label>Event Type
+      <select name="event_type">
+        <option value="inspection">Inspection</option>
+        <option value="toolbox_talk">Toolbox Talk</option>
+        <option value="incident">Incident</option>
+        <option value="near_miss">Near Miss</option>
+      </select>
+    </label>
+    <label>Site <input name="site" value="123 Main St"></label>
+    <label>Client <input name="client" value="Acme Construction"></label>
+    <label>Notes <textarea name="notes" rows="4">Daily inspection completed. No issues.</textarea></label>
+    <label>Hazards Noted (comma-separated) <input name="hazards_noted"></label>
+    <label>Corrective Actions (comma-separated) <input name="corrective_actions"></label>
+    <label>Attendees (comma-separated) <input name="attendees" value="tech-dan,foreman-joe"></label>
+    <label>Status <input name="status" value="completed"></label>
+    <label>Operator <input name="operator" value="safety-officer"></label>
+    <button type="submit">Generate Event JSON</button>
+  </form>
+  <pre id="output"></pre>
+  <script>
+    document.getElementById('eventForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        event_id: form.event_id.value,
+        event_type: form.event_type.value,
+        site: form.site.value,
+        client: form.client.value,
+        notes: form.notes.value,
+        hazards_noted: form.hazards_noted.value.split(',').map(s => s.trim()).filter(Boolean),
+        corrective_actions: form.corrective_actions.value.split(',').map(s => s.trim()).filter(Boolean),
+        attendees: form.attendees.value.split(',').map(s => s.trim()).filter(Boolean),
+        status: form.status.value,
+        media_hashes: [],
+        operator: form.operator.value,
+        logged_at: new Date().toISOString()
+      };
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
